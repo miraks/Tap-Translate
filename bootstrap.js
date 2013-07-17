@@ -4,7 +4,7 @@ const Cu = Components.utils;
 
 Cu.import("resource://gre/modules/Services.jsm");
 
-let DEBUG = true;
+let DEBUG = false;
 
 /**
  * Main
@@ -15,22 +15,16 @@ let TapTranslate = {
   _contextMenus: [],
 
   init: function() {
-    utils.log("init");
-
     this.setDefaultPrefs();
 
     this._prefs = Services.prefs.getBranch("extensions.taptranslate.");
   },
 
   uninit: function() {
-    utils.log("uninit");
-
     this._prefs = null;
   },
 
   setDefaultPrefs: function() {
-    utils.log("setDefaultPrefs");
-
     let prefs = Services.prefs.getDefaultBranch("extensions.taptranslate.");
 
     prefs.setCharPref("translation_language", "en");
@@ -41,16 +35,12 @@ let TapTranslate = {
   },
 
   install: function() {
-    utils.log("install");
   },
 
   uninstall: function() {
-    utils.log("uninstall");
   },
 
   load: function(aWindow) {
-    utils.log("load(" + aWindow + ")");
-
     if (!aWindow)
         return;
 
@@ -59,8 +49,6 @@ let TapTranslate = {
   },
 
   unload: function(aWindow) {
-    utils.log("unload(" + aWindow + ")");
-
     if (!aWindow)
         return;
 
@@ -69,8 +57,6 @@ let TapTranslate = {
   },
 
   setupUI: function(aWindow) {
-    utils.log("setupUI");
-
     let self = this;
 
     // See SelectionHandler and ClipboardHelper
@@ -92,8 +78,6 @@ let TapTranslate = {
   },
 
   cleanupUI: function(aWindow) {
-    utils.log("cleanupUI");
-
     this._contextMenus.forEach(function(menu) {
       aWindow.NativeWindow.contextmenus.remove(menu);
     });
@@ -102,8 +86,6 @@ let TapTranslate = {
   },
 
   _translate: function(aWindow, text) {
-    utils.log("_translate");
-
     let self = this;
 
     let translationLanguage = this._prefs.getCharPref("translation_language");
@@ -123,8 +105,6 @@ let TapTranslate = {
   },
 
   _showTranslation: function(aWindow, translation) {
-    utils.log("_showTranslation");
-
     let msg = translation.sentences[0].trans;
 
     if (translation.dict) {
@@ -144,8 +124,6 @@ let TapTranslate = {
   },
 
   _translationErrorNotify: function(aWindow) {
-    utils.log("_translationErrorNotify");
-
     let msg = utils.t("TranslationRequestError");
     aWindow.NativeWindow.toast.show(msg);
   }
