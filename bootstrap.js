@@ -125,10 +125,21 @@ let TapTranslate = {
   _showTranslation: function(aWindow, translation) {
     utils.log("_showTranslation");
 
+    let msg = translation.sentences[0].trans;
+
+    if (translation.dict) {
+      msg += "\n";
+      translation.dict.forEach(function(part) {
+        msg += "\n";
+        let pos = part.pos.charAt(0).toUpperCase() + part.pos.slice(1);
+        msg += pos + ": " + part.terms.join(", ");
+      });
+    }
+
     aWindow.NativeWindow.doorhanger.show(
-      translation.sentences[0].trans,
+      msg,
       "Translation",
-      [{ label: "Close" }]
+      [{ label: utils.t("Close") }]
     );
   },
 
@@ -326,7 +337,6 @@ let settingsObserver = {
 
     menu.watch("selectedIndex", function(prop, oldIndex, newIndex) {
       let language = menu.getItemAtIndex(newIndex).value
-      utils.log("set language: " + language);
       TapTranslate.setTranslationLanguage(language);
 
       return newIndex;

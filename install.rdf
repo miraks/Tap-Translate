@@ -16,7 +16,8 @@
         <em:localized>
             <Description>
                 <em:locale>ru-RU</em:locale>
-                <em:description>Добавляет кнопку перевода в меню появляющиеся по длинному тапу</em:description>
+                <em:name>Tap Translate</em:name>
+                <em:description>Добавляет кнопку перевода в контекстное меню</em:description>
             </Description>
         </em:localized>
 
