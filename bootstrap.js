@@ -33,7 +33,11 @@ let TapTranslate = {
 
     let prefs = Services.prefs.getDefaultBranch("extensions.taptranslate.");
 
-    prefs.setCharPref("translation_language", "ru");
+    prefs.setCharPref("translation_language", "en");
+  },
+
+  setTranslationLanguage: function(language) {
+    this._prefs.setCharPref("translation_language", language);
   },
 
   install: function() {
@@ -77,7 +81,7 @@ let TapTranslate = {
     };
 
     menu = aWindow.NativeWindow.contextmenus.add(
-      utils.t("TranslateSelectedText"),
+      utils.t("Translate"),
       searchOnContext,
       function(target) {
         text = utils.getSelectedText(aWindow);
@@ -244,6 +248,7 @@ function uninstall(aData, aReason) {
 
 function startup(aData, aReason) {
   // General setup
+  settingsObserver.init();
   TapTranslate.init();
 
   // Load into any existing windows
@@ -277,6 +282,7 @@ function shutdown(aData, aReason) {
 
   // General teardown
   TapTranslate.uninit();
+  settingsObserver.uninit();
 }
 
 let windowListener = {
@@ -293,4 +299,39 @@ let windowListener = {
   // Unused
   onCloseWindow: function(aWindow) {},
   onWindowTitleChange: function(aWindow, aTitle) {}
+};
+
+/*
+ * Fennec bug workaround
+ * See https://bugzilla.mozilla.org/show_bug.cgi?id=891736
+*/
+
+let settingsObserver = {
+  init: function() {
+    Services.obs.addObserver(this, "addon-options-displayed", false);
+  },
+
+  uninit: function() {
+    Services.obs.removeObserver(this, "addon-options-displayed");
+  },
+
+  observe: function(subject, topic, data) {
+    this.fixTranslationMenu(subject.QueryInterface(Ci.nsIDOMDocument));
+  },
+
+  fixTranslationMenu: function(doc) {
+    let menu = doc.getElementById("tap-translate-translation-language-selector");
+    if (!menu)
+      return;
+
+    menu.watch("selectedIndex", function(prop, oldIndex, newIndex) {
+      let language = menu.getItemAtIndex(newIndex).value
+      utils.log("set language: " + language);
+      TapTranslate.setTranslationLanguage(language);
+
+      return newIndex;
+    });
+  },
+
+
 };
