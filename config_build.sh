@@ -5,7 +5,7 @@
 APP_NAME="taptranslate"
 CHROME_PROVIDERS="content locale"
 CLEAN_UP=1
-ROOT_FILES="bootstrap.js"
+ROOT_FILES="bootstrap.js icon.png icon64.png"
 ROOT_DIRS=
 BEFORE_BUILD=
 AFTER_BUILD=
