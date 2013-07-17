@@ -5,8 +5,70 @@
   <setting pref="extensions.taptranslate.translation_language" type="menulist" title="&translationLanguage;">
     <menulist id="tap-translate-translation-language-selector">
       <menupopup>
+        <menuitem value="af" label="Afrikaans"/>
+        <menuitem value="sq" label="Albanian"/>
+        <menuitem value="ar" label="Arabic"/>
+        <menuitem value="az" label="Azerbaijani"/>
+        <menuitem value="eu" label="Basque"/>
+        <menuitem value="bn" label="Bengali"/>
+        <menuitem value="be" label="Belarusian"/>
+        <menuitem value="bg" label="Bulgarian"/>
+        <menuitem value="ca" label="Catalan"/>
+        <menuitem value="zh-CN" label="Chinese Simplified"/>
+        <menuitem value="zh-TW" label="Chinese Traditional"/>
+        <menuitem value="hr" label="Croatian"/>
+        <menuitem value="cs" label="Czech"/>
+        <menuitem value="da" label="Danish"/>
+        <menuitem value="nl" label="Dutch"/>
         <menuitem value="en" label="English"/>
+        <menuitem value="eo" label="Esperanto"/>
+        <menuitem value="et" label="Estonian"/>
+        <menuitem value="tl" label="Filipino"/>
+        <menuitem value="fi" label="Finnish"/>
+        <menuitem value="fr" label="French"/>
+        <menuitem value="gl" label="Galician"/>
+        <menuitem value="ka" label="Georgian"/>
+        <menuitem value="de" label="German"/>
+        <menuitem value="el" label="Greek"/>
+        <menuitem value="gu" label="Gujarati"/>
+        <menuitem value="ht" label="Haitian Creole"/>
+        <menuitem value="iw" label="Hebrew"/>
+        <menuitem value="hi" label="Hindi"/>
+        <menuitem value="hu" label="Hungarian"/>
+        <menuitem value="is" label="Icelandic"/>
+        <menuitem value="id" label="Indonesian"/>
+        <menuitem value="ga" label="Irish"/>
+        <menuitem value="it" label="Italian"/>
+        <menuitem value="ja" label="Japanese"/>
+        <menuitem value="kn" label="Kannada"/>
+        <menuitem value="ko" label="Korean"/>
+        <menuitem value="la" label="Latin"/>
+        <menuitem value="lv" label="Latvian"/>
+        <menuitem value="lt" label="Lithuanian"/>
+        <menuitem value="mk" label="Macedonian"/>
+        <menuitem value="ms" label="Malay"/>
+        <menuitem value="mt" label="Maltese"/>
+        <menuitem value="no" label="Norwegian"/>
+        <menuitem value="fa" label="Persian"/>
+        <menuitem value="pl" label="Polish"/>
+        <menuitem value="pt" label="Portuguese"/>
+        <menuitem value="ro" label="Romanian"/>
         <menuitem value="ru" label="Russian"/>
+        <menuitem value="sr" label="Serbian"/>
+        <menuitem value="sk" label="Slovak"/>
+        <menuitem value="sl" label="Slovenian"/>
+        <menuitem value="es" label="Spanish"/>
+        <menuitem value="sw" label="Swahili"/>
+        <menuitem value="sv" label="Swedish"/>
+        <menuitem value="ta" label="Tamil"/>
+        <menuitem value="te" label="Telugu"/>
+        <menuitem value="th" label="Thai"/>
+        <menuitem value="tr" label="Turkish"/>
+        <menuitem value="uk" label="Ukrainian"/>
+        <menuitem value="ur" label="Urdu"/>
+        <menuitem value="vi" label="Vietnamese"/>
+        <menuitem value="cy" label="Welsh"/>
+        <menuitem value="yi" label="Yiddish"/>
       </menupopup>
     </menulist>
   </setting>
