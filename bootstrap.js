@@ -1,0 +1,296 @@
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
+
+Cu.import("resource://gre/modules/Services.jsm");
+
+let DEBUG = true;
+
+/**
+ * Main
+ */
+
+let TapTranslate = {
+  _prefs: null,
+  _contextMenus: [],
+
+  init: function() {
+    utils.log("init");
+
+    this.setDefaultPrefs();
+
+    this._prefs = Services.prefs.getBranch("extensions.taptranslate.");
+  },
+
+  uninit: function() {
+    utils.log("uninit");
+
+    this._prefs = null;
+  },
+
+  setDefaultPrefs: function() {
+    utils.log("setDefaultPrefs");
+
+    let prefs = Services.prefs.getDefaultBranch("extensions.taptranslate.");
+
+    prefs.setCharPref("translation_language", "ru");
+  },
+
+  install: function() {
+    utils.log("install");
+  },
+
+  uninstall: function() {
+    utils.log("uninstall");
+  },
+
+  load: function(aWindow) {
+    utils.log("load(" + aWindow + ")");
+
+    if (!aWindow)
+        return;
+
+    // Create UI
+    this.setupUI(aWindow);
+  },
+
+  unload: function(aWindow) {
+    utils.log("unload(" + aWindow + ")");
+
+    if (!aWindow)
+        return;
+
+    // Clean up the UI
+    this.cleanupUI(aWindow);
+  },
+
+  setupUI: function(aWindow) {
+    utils.log("setupUI");
+
+    let self = this;
+
+    // See SelectionHandler and ClipboardHelper
+    let searchOnContext = {
+      matches: function(aElement, aX, aY) {
+        return aWindow.SelectionHandler.shouldShowContextMenu(aX, aY);
+      }
+    };
+
+    menu = aWindow.NativeWindow.contextmenus.add(
+      utils.t("TranslateSelectedText"),
+      searchOnContext,
+      function(target) {
+        text = utils.getSelectedText(aWindow);
+        self._translate(aWindow, text);
+      }
+    );
+    this._contextMenus.push(menu);
+  },
+
+  cleanupUI: function(aWindow) {
+    utils.log("cleanupUI");
+
+    this._contextMenus.forEach(function(menu) {
+      aWindow.NativeWindow.contextmenus.remove(menu);
+    });
+
+    this._contextMenus = [];
+  },
+
+  _translate: function(aWindow, text) {
+    utils.log("_translate");
+
+    let self = this;
+
+    let translationLanguage = this._prefs.getCharPref("translation_language");
+    let request = requestBuilder.build(
+      translationLanguage,
+      text,
+      function(event) {
+        let translation = JSON.parse(event.target.responseText);
+        self._showTranslation(aWindow, translation);
+      },
+      function() {
+        self._translationErrorNotify(aWindow);
+      }
+    );
+
+    request.send();
+  },
+
+  _showTranslation: function(aWindow, translation) {
+    utils.log("_showTranslation");
+
+    aWindow.NativeWindow.doorhanger.show(
+      translation.sentences[0].trans,
+      "Translation",
+      [{ label: "Close" }]
+    );
+  },
+
+  _translationErrorNotify: function(aWindow) {
+    utils.log("_translationErrorNotify");
+
+    let msg = utils.t("TranslationRequestError");
+    aWindow.NativeWindow.toast.show(msg);
+  }
+
+};
+
+let requestBuilder = {
+
+  url: "http://translate.google.com/translate_a/t",
+  XMLHttpRequest: Cc["@mozilla.org/xmlextras/xmlhttprequest;1"],
+
+  createXMLHttpRequest: function(params) {
+    return Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest);
+  },
+
+  build: function(translationLanguage, text, successHandler, errorHandler) {
+    let params = {
+      client: "p",
+      sl: "auto",
+      tl: translationLanguage,
+      text: text
+    };
+    let query = [];
+    for (let param in params) {
+      query.push(param + "=" + params[param]);
+    }
+    query = query.join("&");
+    let url = this.url + "?" + query;
+
+    let request = this.createXMLHttpRequest();
+    request.open("GET", url);
+    request.addEventListener("load", successHandler, false);
+    request.addEventListener("error", errorHandler, false);
+
+    return request;
+  },
+
+};
+
+/**
+ * Utilities
+ */
+
+let utils = {
+
+  _translations: null,
+
+  log: function(msg) {
+    if (!DEBUG)
+      return;
+    msg = "log: " + msg;
+    Services.console.logStringMessage(msg);
+    // For remote debugging
+    Cu.reportError(msg);
+  },
+
+  inspect: function(object, prefix) {
+    if (!DEBUG)
+      return;
+
+    if (typeof prefix === "undefined")
+      prefix = "";
+
+    for (let key in object) {
+      let value = object[key];
+      let type = typeof value;
+      if (type === "object") {
+        this.inspect(value, prefix + "{" + key + "} ");
+      } else {
+        this.log(prefix + key + " => (" + type + ") " + value);
+      }
+    }
+  },
+
+  t: function(name) {
+    if (!this._translations) {
+      let uri = "chrome://taptranslate/locale/taptranslate.properties";
+      this._translations = Services.strings.createBundle(uri);
+    }
+
+    try {
+      return this._translations.GetStringFromName(name);
+    } catch (ex) {
+      return name;
+    }
+  },
+
+  getSelectedText: function(aWindow) {
+    let win = aWindow.BrowserApp.selectedTab.window;
+    let selection = win.getSelection();
+    if (!selection || selection.isCollapsed) {
+      return "";
+    }
+    return selection.toString().trim();
+  },
+
+};
+
+/**
+ * bootstrap.js API
+ */
+
+function install(aData, aReason) {
+  TapTranslate.install();
+}
+
+function uninstall(aData, aReason) {
+  if (aReason == ADDON_UNINSTALL)
+    TapTranslate.uninstall();
+}
+
+function startup(aData, aReason) {
+  // General setup
+  TapTranslate.init();
+
+  // Load into any existing windows
+  let windows = Services.wm.getEnumerator('navigator:browser');
+  while (windows.hasMoreElements()) {
+    let win = windows.getNext().QueryInterface(Ci.nsIDOMWindow);
+    if (win)
+      TapTranslate.load(win);
+  }
+
+  // Load into any new windows
+  Services.wm.addListener(windowListener);
+}
+
+function shutdown(aData, aReason) {
+  // When the application is shutting down we normally don't have to clean
+  // up any UI changes made
+  if (aReason == APP_SHUTDOWN)
+    return;
+
+  // Stop listening for new windows
+  Services.wm.removeListener(windowListener);
+
+  // Unload from any existing windows
+  let windows = Services.wm.getEnumerator('navigator:browser');
+  while (windows.hasMoreElements()) {
+    let win = windows.getNext().QueryInterface(Ci.nsIDOMWindow);
+    if (win)
+      TapTranslate.unload(win);
+  }
+
+  // General teardown
+  TapTranslate.uninit();
+}
+
+let windowListener = {
+  onOpenWindow: function(aWindow) {
+    let win = aWindow.QueryInterface(Ci.nsIInterfaceRequestor)
+                     .getInterface(Ci.nsIDOMWindowInternal || Ci.nsIDOMWindow);
+
+    win.addEventListener('UIReady', function() {
+      win.removeEventListener('UIReady', arguments.callee, false);
+      TapTranslate.load(win);
+    }, false);
+  },
+
+  // Unused
+  onCloseWindow: function(aWindow) {},
+  onWindowTitleChange: function(aWindow, aTitle) {}
+};
