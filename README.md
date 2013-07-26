@@ -1,4 +1,4 @@
-tap-translate
+Tap Translate
 =============
 Adds a translate button to long-tap menu.
 
