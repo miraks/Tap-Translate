@@ -9,7 +9,7 @@
         <em:name>Tap Translate</em:name>
         <em:version>0.1</em:version>
         <em:bootstrap>true</em:bootstrap>
-        <em:description>Adds a transalte button to long-tap menu</em:description>
+        <em:description>Adds a translate button to long-tap menu</em:description>
         <em:creator>Miraks</em:creator>
         <em:optionsURL>chrome://taptranslate/content/settings.xul</em:optionsURL>
 
