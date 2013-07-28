@@ -7,7 +7,7 @@ compile_coffee () {
 APP_NAME="taptranslate"
 CHROME_PROVIDERS="content locale"
 CLEAN_UP=1
-ROOT_FILES="bootstrap.js icon.png icon64.png"
+ROOT_FILES="bootstrap.js bootstrap.coffee icon.png icon64.png"
 ROOT_DIRS=
 BEFORE_BUILD=compile_coffee
 AFTER_BUILD=
