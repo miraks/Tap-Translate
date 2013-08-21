@@ -66,14 +66,14 @@ TapTranslate = {
     var request, translationLanguage,
       _this = this;
     translationLanguage = this._prefs.getCharPref("translation_language");
-    request = requestBuilder.build(translationLanguage, text, function(event) {
+    request = requestBuilder.build(translationLanguage, function(event) {
       var translation;
       translation = JSON.parse(event.target.responseText);
       return _this._showTranslation(aWindow, translation);
     }, function() {
       return _this._translationErrorNotify(aWindow);
     });
-    return request.send();
+    return request.send("text=" + (encodeURIComponent(text)));
   },
   _showTranslation: function(aWindow, translation) {
     var msg;
@@ -106,13 +106,12 @@ requestBuilder = {
   createXMLHttpRequest: function(params) {
     return Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest);
   },
-  build: function(translationLanguage, text, successHandler, errorHandler) {
+  build: function(translationLanguage, successHandler, errorHandler) {
     var param, params, query, request, url, value;
     params = {
       client: "p",
       sl: "auto",
-      tl: translationLanguage,
-      text: text
+      tl: translationLanguage
     };
     query = [];
     for (param in params) {
@@ -122,7 +121,8 @@ requestBuilder = {
     query = query.join("&");
     url = "" + this.url + "?" + query;
     request = this.createXMLHttpRequest();
-    request.open("GET", url);
+    request.open("POST", url);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.addEventListener("load", successHandler, false);
     request.addEventListener("error", errorHandler, false);
     return request;

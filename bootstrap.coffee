@@ -64,7 +64,6 @@ TapTranslate =
 
     request = requestBuilder.build(
       translationLanguage
-      text
       (event) =>
         translation = JSON.parse event.target.responseText
         @_showTranslation aWindow, translation
@@ -72,7 +71,7 @@ TapTranslate =
         @_translationErrorNotify aWindow
     )
 
-    request.send()
+    request.send("text=#{encodeURIComponent(text)}")
 
   _showTranslation: (aWindow, translation) ->
     msg = translation.sentences[0].trans
@@ -102,12 +101,11 @@ requestBuilder =
   createXMLHttpRequest: (params) ->
     return Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest)
 
-  build: (translationLanguage, text, successHandler, errorHandler) ->
+  build: (translationLanguage, successHandler, errorHandler) ->
     params =
       client: "p"
       sl: "auto"
       tl: translationLanguage
-      text: text
 
     query = []
     for param, value of params
@@ -116,7 +114,8 @@ requestBuilder =
     url = "#{@url}?#{query}"
 
     request = @createXMLHttpRequest()
-    request.open "GET", url
+    request.open "POST", url
+    request.setRequestHeader "Content-type", "application/x-www-form-urlencoded"
     request.addEventListener "load", successHandler, false
     request.addEventListener "error", errorHandler, false
     request
