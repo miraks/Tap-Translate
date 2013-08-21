@@ -117,7 +117,7 @@ requestBuilder = {
     query = [];
     for (param in params) {
       value = params[param];
-      query.push("" + param + "=" + value);
+      query.push("" + param + "=" + (encodeURIComponent(value)));
     }
     query = query.join("&");
     url = "" + this.url + "?" + query;

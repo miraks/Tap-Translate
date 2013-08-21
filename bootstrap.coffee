@@ -111,7 +111,7 @@ requestBuilder =
 
     query = []
     for param, value of params
-      query.push "#{param}=#{value}"
+      query.push "#{param}=#{encodeURIComponent(value)}"
     query = query.join "&"
     url = "#{@url}?#{query}"
 
