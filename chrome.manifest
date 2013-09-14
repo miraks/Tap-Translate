@@ -1,3 +1,4 @@
 content  taptranslate       content/
 locale   taptranslate en-US locale/en-US/
+locale   taptranslate ru-RU locale/ru-RU/
 locale   taptranslate fr locale/fr/
