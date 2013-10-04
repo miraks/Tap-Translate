@@ -111,21 +111,27 @@ Translation = (function() {
   };
 
   Translation.prototype.main = function() {
-    return this.response.sentences[0].trans;
+    return this.response.sentences.map(function(sentence) {
+      return sentence.trans;
+    });
   };
 
   Translation.prototype.secondary = function() {
     return this.response.dict;
   };
 
+  Translation.prototype.source = function() {
+    return utils.t(this.response.src);
+  };
+
   Translation.prototype._message = function() {
     var msg;
     msg = "";
     if (TapTranslate.showTranslatedLanguage()) {
-      msg += utils.t(this.response.src);
+      msg += this.source();
       msg += "\n\n";
     }
-    msg += this.main();
+    msg += this.main().join("");
     if (this.secondary()) {
       msg += "\n";
       this.secondary().forEach(function(part) {

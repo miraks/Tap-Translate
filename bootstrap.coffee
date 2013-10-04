@@ -104,17 +104,20 @@ class Translation
     )
 
   main: ->
-    @response.sentences[0].trans
+    @response.sentences.map (sentence) -> sentence.trans
 
   secondary: ->
     @response.dict
 
+  source: ->
+    utils.t @response.src
+
   _message: ->
     msg = ""
     if TapTranslate.showTranslatedLanguage()
-      msg += utils.t(@response.src)
+      msg += @source()
       msg += "\n\n"
-    msg += @main()
+    msg += @main().join("")
     if @secondary()
       msg += "\n"
       @secondary().forEach (part) ->
