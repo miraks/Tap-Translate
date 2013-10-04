@@ -22,14 +22,14 @@ TapTranslate = {
   setTranslationLanguage: function(language) {
     return this._prefs.setCharPref("translation_language", language);
   },
-  showTranslationLanguage: function() {
-    return this._prefs.getBoolPref("show_translation_language");
+  showTranslatedLanguage: function() {
+    return this._prefs.getBoolPref("show_translated_language");
   },
   _setDefaultPrefs: function() {
     var prefs;
     prefs = Services.prefs.getDefaultBranch(this._prefsBranch);
     prefs.setCharPref("translation_language", "en");
-    return prefs.setBoolPref("show_translation_language", false);
+    return prefs.setBoolPref("show_translated_language", false);
   },
   install: function() {},
   uninstall: function() {},
@@ -121,7 +121,7 @@ Translation = (function() {
   Translation.prototype._message = function() {
     var msg;
     msg = "";
-    if (TapTranslate.showTranslationLanguage()) {
+    if (TapTranslate.showTranslatedLanguage()) {
       msg += utils.t(this.response.src);
       msg += "\n\n";
     }

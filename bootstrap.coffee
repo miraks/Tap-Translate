@@ -22,13 +22,13 @@ TapTranslate =
   setTranslationLanguage: (language) ->
     @_prefs.setCharPref "translation_language", language
 
-  showTranslationLanguage: ->
-    @_prefs.getBoolPref "show_translation_language"
+  showTranslatedLanguage: ->
+    @_prefs.getBoolPref "show_translated_language"
 
   _setDefaultPrefs: ->
     prefs = Services.prefs.getDefaultBranch @_prefsBranch
     prefs.setCharPref "translation_language", "en"
-    prefs.setBoolPref "show_translation_language", false
+    prefs.setBoolPref "show_translated_language", false
 
   install: ->
 
@@ -111,7 +111,7 @@ class Translation
 
   _message: ->
     msg = ""
-    if TapTranslate.showTranslationLanguage()
+    if TapTranslate.showTranslatedLanguage()
       msg += utils.t(@response.src)
       msg += "\n\n"
     msg += @main()

@@ -72,5 +72,5 @@
       </menupopup>
     </menulist>
   </setting>
-  <setting pref="extensions.taptranslate.show_translation_language" type="bool" title="&showTranslationLanguage;"/>
+  <setting pref="extensions.taptranslate.show_translated_language" type="bool" title="&showTranslatedLanguage;"/>
 </vbox>
