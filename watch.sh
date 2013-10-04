@@ -1,0 +1,1 @@
+coffee -cbw bootstrap.coffee
