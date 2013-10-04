@@ -89,6 +89,12 @@ class Translation
       @_message()
       "Translation"
       [
+        {
+          label: utils.t("Copy"),
+          callback: =>
+            @_copyToClipboard()
+            aWindow.NativeWindow.toast.show(utils.t("TranslationCopied"), "short")
+        },
         { label: utils.t("Close") }
       ]
     )
@@ -109,12 +115,15 @@ class Translation
         msg += "#{pos}: #{part.terms.join(", ")}"
     msg
 
+  _copyToClipboard: ->
+    utils.copyToClipboard @main()
+
 requestBuilder =
   url: "http://translate.google.com/translate_a/t"
   XMLHttpRequest: Cc["@mozilla.org/xmlextras/xmlhttprequest;1"]
 
   createXMLHttpRequest: (params) ->
-    return Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest)
+    Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest)
 
   build: (translationLanguage, successHandler, errorHandler) ->
     params =
@@ -175,6 +184,10 @@ utils =
 
   capitalize: (word) ->
     word.charAt(0).toUpperCase() + word.slice(1)
+
+  copyToClipboard: (text) ->
+    @_clipboardHelper ||= Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper)
+    @_clipboardHelper.copyString text
 
 install = (aData, aReason) ->
   TapTranslate.install()

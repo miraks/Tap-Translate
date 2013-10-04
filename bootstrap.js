@@ -92,8 +92,15 @@ Translation = (function() {
   }
 
   Translation.prototype.show = function(aWindow) {
+    var _this = this;
     return aWindow.NativeWindow.doorhanger.show(this._message(), "Translation", [
       {
+        label: utils.t("Copy"),
+        callback: function() {
+          _this._copyToClipboard();
+          return aWindow.NativeWindow.toast.show(utils.t("TranslationCopied"), "short");
+        }
+      }, {
         label: utils.t("Close")
       }
     ]);
@@ -120,6 +127,10 @@ Translation = (function() {
       });
     }
     return msg;
+  };
+
+  Translation.prototype._copyToClipboard = function() {
+    return utils.copyToClipboard(this.main());
   };
 
   return Translation;
@@ -210,6 +221,10 @@ utils = {
   },
   capitalize: function(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
+  },
+  copyToClipboard: function(text) {
+    this._clipboardHelper || (this._clipboardHelper = Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper));
+    return this._clipboardHelper.copyString(text);
   }
 };
 
