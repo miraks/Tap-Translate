@@ -2,7 +2,7 @@
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 const Cu = Components.utils;;
-var DEBUG, TapTranslate, install, requestBuilder, settingsObserver, shutdown, startup, uninstall, utils, windowListener;
+var DEBUG, TapTranslate, Translation, install, requestBuilder, settingsObserver, shutdown, startup, uninstall, utils, windowListener;
 
 Cu["import"]("resource://gre/modules/Services.jsm");
 
@@ -76,22 +76,8 @@ TapTranslate = {
     return request.send("text=" + (encodeURIComponent(text)));
   },
   _showTranslation: function(aWindow, translation) {
-    var msg;
-    msg = translation.sentences[0].trans;
-    if (translation.dict) {
-      msg += "\n";
-      translation.dict.forEach(function(part) {
-        var pos;
-        msg += "\n";
-        pos = utils.capitalize(part.pos);
-        return msg += "" + pos + ": " + (part.terms.join(", "));
-      });
-    }
-    return aWindow.NativeWindow.doorhanger.show(msg, "Translation", [
-      {
-        label: utils.t("Close")
-      }
-    ]);
+    translation = new Translation(translation);
+    return translation.show(aWindow);
   },
   _translationErrorNotify: function(aWindow) {
     var msg;
@@ -99,6 +85,46 @@ TapTranslate = {
     return aWindow.NativeWindow.toast.show(msg);
   }
 };
+
+Translation = (function() {
+  function Translation(response) {
+    this.response = response;
+  }
+
+  Translation.prototype.show = function(aWindow) {
+    return aWindow.NativeWindow.doorhanger.show(this._message(), "Translation", [
+      {
+        label: utils.t("Close")
+      }
+    ]);
+  };
+
+  Translation.prototype.main = function() {
+    return this.response.sentences[0].trans;
+  };
+
+  Translation.prototype.secondary = function() {
+    return this.response.dict;
+  };
+
+  Translation.prototype._message = function() {
+    var msg;
+    msg = this.main();
+    if (this.secondary()) {
+      msg += "\n";
+      this.secondary().forEach(function(part) {
+        var pos;
+        msg += "\n";
+        pos = utils.capitalize(part.pos);
+        return msg += "" + pos + ": " + (part.terms.join(", "));
+      });
+    }
+    return msg;
+  };
+
+  return Translation;
+
+})();
 
 requestBuilder = {
   url: "http://translate.google.com/translate_a/t",

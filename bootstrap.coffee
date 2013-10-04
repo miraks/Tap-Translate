@@ -74,25 +74,40 @@ TapTranslate =
     request.send("text=#{encodeURIComponent(text)}")
 
   _showTranslation: (aWindow, translation) ->
-    msg = translation.sentences[0].trans
-
-    if translation.dict
-      msg += "\n"
-      translation.dict.forEach (part) ->
-        msg += "\n"
-        pos = utils.capitalize part.pos
-        msg += "#{pos}: #{part.terms.join(", ")}"
-
-    aWindow.NativeWindow.doorhanger.show(
-      msg
-      "Translation"
-      [{ label: utils.t("Close") }]
-    )
+    translation = new Translation translation
+    translation.show aWindow
 
   _translationErrorNotify: (aWindow) ->
     msg = utils.t "TranslationRequestError"
     aWindow.NativeWindow.toast.show msg
 
+class Translation
+  constructor: (@response) ->
+
+  show: (aWindow) ->
+    aWindow.NativeWindow.doorhanger.show(
+      @_message()
+      "Translation"
+      [
+        { label: utils.t("Close") }
+      ]
+    )
+
+  main: ->
+    @response.sentences[0].trans
+
+  secondary: ->
+    @response.dict
+
+  _message: ->
+    msg = @main()
+    if @secondary()
+      msg += "\n"
+      @secondary().forEach (part) ->
+        msg += "\n"
+        pos = utils.capitalize part.pos
+        msg += "#{pos}: #{part.terms.join(", ")}"
+    msg
 
 requestBuilder =
   url: "http://translate.google.com/translate_a/t"
