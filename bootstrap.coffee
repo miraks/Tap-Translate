@@ -13,18 +13,22 @@ TapTranslate =
   _contextMenus: []
 
   init: ->
-    @setDefaultPrefs()
+    @_setDefaultPrefs()
     @_prefs = Services.prefs.getBranch @_prefsBranch
 
   uninit: ->
     @_prefs = null
 
-  setDefaultPrefs: ->
-    prefs = Services.prefs.getDefaultBranch @_prefsBranch
-    prefs.setCharPref "translation_language", "en"
-
   setTranslationLanguage: (language) ->
     @_prefs.setCharPref "translation_language", language
+
+  showTranslationLanguage: ->
+    @_prefs.getBoolPref "show_translation_language"
+
+  _setDefaultPrefs: ->
+    prefs = Services.prefs.getDefaultBranch @_prefsBranch
+    prefs.setCharPref "translation_language", "en"
+    prefs.setBoolPref "show_translation_language", false
 
   install: ->
 
@@ -106,7 +110,11 @@ class Translation
     @response.dict
 
   _message: ->
-    msg = @main()
+    msg = ""
+    if TapTranslate.showTranslationLanguage()
+      msg += utils.t(@response.src)
+      msg += "\n\n"
+    msg += @main()
     if @secondary()
       msg += "\n"
       @secondary().forEach (part) ->

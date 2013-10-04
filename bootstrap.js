@@ -13,19 +13,23 @@ TapTranslate = {
   _prefs: null,
   _contextMenus: [],
   init: function() {
-    this.setDefaultPrefs();
+    this._setDefaultPrefs();
     return this._prefs = Services.prefs.getBranch(this._prefsBranch);
   },
   uninit: function() {
     return this._prefs = null;
   },
-  setDefaultPrefs: function() {
-    var prefs;
-    prefs = Services.prefs.getDefaultBranch(this._prefsBranch);
-    return prefs.setCharPref("translation_language", "en");
-  },
   setTranslationLanguage: function(language) {
     return this._prefs.setCharPref("translation_language", language);
+  },
+  showTranslationLanguage: function() {
+    return this._prefs.getBoolPref("show_translation_language");
+  },
+  _setDefaultPrefs: function() {
+    var prefs;
+    prefs = Services.prefs.getDefaultBranch(this._prefsBranch);
+    prefs.setCharPref("translation_language", "en");
+    return prefs.setBoolPref("show_translation_language", false);
   },
   install: function() {},
   uninstall: function() {},
@@ -116,7 +120,12 @@ Translation = (function() {
 
   Translation.prototype._message = function() {
     var msg;
-    msg = this.main();
+    msg = "";
+    if (TapTranslate.showTranslationLanguage()) {
+      msg += utils.t(this.response.src);
+      msg += "\n\n";
+    }
+    msg += this.main();
     if (this.secondary()) {
       msg += "\n";
       this.secondary().forEach(function(part) {
