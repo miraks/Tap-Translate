@@ -201,9 +201,7 @@ utils = {
     return !!obj && obj.constructor === Object;
   },
   t: function(name) {
-    if (!this._translations) {
-      this._translations = Services.strings.createBundle(this._translations_uri);
-    }
+    this._translations || (this._translations = Services.strings.createBundle(this._translations_uri));
     try {
       return this._translations.GetStringFromName(name);
     } catch (_error) {

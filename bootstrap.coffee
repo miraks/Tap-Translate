@@ -168,8 +168,7 @@ utils =
     !!obj and obj.constructor == Object
 
   t: (name) ->
-    unless @_translations
-      @_translations = Services.strings.createBundle @_translations_uri
+    @_translations ||= Services.strings.createBundle @_translations_uri
 
     try
       @_translations.GetStringFromName name
