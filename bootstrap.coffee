@@ -195,7 +195,7 @@ utils =
     word.charAt(0).toUpperCase() + word.slice(1)
 
   copyToClipboard: (text) ->
-    @_clipboardHelper ||= Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper)
+    @_clipboardHelper ||= Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper)
     @_clipboardHelper.copyString text
 
 install = (aData, aReason) ->

@@ -235,7 +235,7 @@ utils = {
     return word.charAt(0).toUpperCase() + word.slice(1);
   },
   copyToClipboard: function(text) {
-    this._clipboardHelper || (this._clipboardHelper = Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper));
+    this._clipboardHelper || (this._clipboardHelper = Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper));
     return this._clipboardHelper.copyString(text);
   }
 };
