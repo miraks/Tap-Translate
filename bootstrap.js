@@ -189,8 +189,7 @@ utils = {
       return;
     }
     msg = "log: " + msg;
-    Services.console.logStringMessage(msg);
-    return Cu.reportError(msg);
+    return Services.console.logStringMessage(msg);
   },
   inspect: function(object, prefix) {
     var key, type, value, _results;

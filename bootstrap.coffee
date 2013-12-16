@@ -164,7 +164,6 @@ utils =
     return unless DEBUG
     msg = "log: #{msg}"
     Services.console.logStringMessage msg
-    Cu.reportError msg
 
   inspect: (object, prefix = "") ->
     return unless DEBUG
