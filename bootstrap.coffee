@@ -12,7 +12,7 @@ TapTranslate =
   _prefs: null
   _contextMenus: []
 
-  init: ->
+  init: (@addonData) ->
     @_setDefaultPrefs()
     @_prefs = Services.prefs.getBranch @_prefsBranch
 
@@ -43,25 +43,33 @@ TapTranslate =
     @cleanupUI aWindow
 
   setupUI: (aWindow) ->
-    searchOnContext =
-      matches: (aElement, aX, aY) ->
-        aWindow.SelectionHandler.shouldShowContextMenu aX, aY
+    label = utils.t "Translate"
+    selector = aWindow.ClipboardHelper.getCopyContext(false)
+    translate = (aElement) =>
+      text = utils.getSelectedText aWindow
+      aWindow.SelectionHandler._closeSelection()
+      @_translate aWindow, text
 
-    menu = aWindow.NativeWindow.contextmenus.add(
-      utils.t("Translate")
-      searchOnContext
-      (target) =>
-        text = utils.getSelectedText aWindow
-        @_translate aWindow, text
-    )
-
-    @_contextMenus.push menu
+    if @_isNewContextMenu aWindow
+      aWindow.SelectionHandler.actions.TRANSLATE =
+        label: label
+        id: "translate_action"
+        icon: @addonData.resourceURI.spec + "assets/translate.png"
+        action: translate
+        selector: selector
+        showAsAction: false
+        order: 0
+    else
+      menu = aWindow.NativeWindow.contextmenus.add label, selector, translate
+      @_contextMenus.push menu
 
   cleanupUI: (aWindow) ->
-    @_contextMenus.forEach (menu) ->
-      aWindow.NativeWindow.contextmenus.remove menu
-
-    @_contextMenus = []
+    if @_isNewContextMenu aWindow
+      delete aWindow.SelectionHandler.actions.TRANSLATE
+    else
+      @_contextMenus.forEach (menu) ->
+        aWindow.NativeWindow.contextmenus.remove menu
+      @_contextMenus = []
 
   _translate: (aWindow, text) ->
     translationLanguage = @_prefs.getCharPref "translation_language"
@@ -84,6 +92,9 @@ TapTranslate =
   _translationErrorNotify: (aWindow) ->
     msg = utils.t "TranslationRequestError"
     aWindow.NativeWindow.toast.show msg
+
+  _isNewContextMenu: (aWindow) ->
+    aWindow.SelectionHandler.actions?
 
 class Translation
   constructor: (@response) ->
@@ -174,6 +185,7 @@ utils =
       else
         @log "#{prefix}#{key} => (#{type}) value"
 
+
   isObject: (obj) ->
     !!obj and obj.constructor == Object
 
@@ -206,7 +218,7 @@ uninstall = (aData, aReason) ->
 
 startup = (aData, aReason) ->
   settingsObserver.init()
-  TapTranslate.init()
+  TapTranslate.init aData
 
   windows = Services.wm.getEnumerator "navigator:browser"
   while windows.hasMoreElements()
