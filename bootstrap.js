@@ -188,8 +188,7 @@ utils = {
       return;
     }
     msg = "log: " + msg;
-    Services.console.logStringMessage(msg);
-    return Cu.reportError(msg);
+    return Services.console.logStringMessage(msg);
   },
   inspect: function(object, prefix) {
     var key, type, value, _results;
@@ -235,7 +234,7 @@ utils = {
     return word.charAt(0).toUpperCase() + word.slice(1);
   },
   copyToClipboard: function(text) {
-    this._clipboardHelper || (this._clipboardHelper = Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper));
+    this._clipboardHelper || (this._clipboardHelper = Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper));
     return this._clipboardHelper.copyString(text);
   }
 };
