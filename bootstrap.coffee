@@ -178,13 +178,15 @@ utils =
 
   inspect: (object, prefix = "") ->
     return unless DEBUG
-    for key, value of object
-      type = typeof value
-      if @isObject value
-        @inspect value, "#{prefix}{#{key}} "
-      else
-        @log "#{prefix}#{key} => (#{type}) value"
-
+    Object.keys(object).forEach (key) =>
+      try
+        value = object[key]
+        type = typeof value
+        if @isObject value
+          @inspect value, "#{prefix}{#{key}} "
+        else
+          @log "#{prefix}#{key} => (#{type}) #{value}"
+      catch
 
   isObject: (obj) ->
     !!obj and obj.constructor == Object
