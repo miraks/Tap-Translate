@@ -7,7 +7,7 @@
         <em:id>{8a802b5a-eeab-11e2-a41d-b0096288709b}</em:id>
         <em:type>2</em:type>
         <em:name>Tap Translate</em:name>
-        <em:version>0.2.1</em:version>
+        <em:version>0.2.2</em:version>
         <em:bootstrap>true</em:bootstrap>
         <em:description>Adds a translate button to long-tap menu</em:description>
         <em:creator>Miraks</em:creator>
@@ -27,7 +27,7 @@
             <Description>
                 <em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id>
                 <em:minVersion>15.0</em:minVersion>
-                <em:maxVersion>29.0</em:maxVersion>
+                <em:maxVersion>31.0</em:maxVersion>
             </Description>
         </em:targetApplication>
     </Description>
