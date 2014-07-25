@@ -59,12 +59,7 @@ TapTranslate =
       order: 0
 
   cleanupUI: (aWindow) ->
-    if @_isNewContextMenu aWindow
-      delete aWindow.SelectionHandler.actions.TRANSLATE
-    else
-      @_contextMenus.forEach (menu) ->
-        aWindow.NativeWindow.contextmenus.remove menu
-      @_contextMenus = []
+    aWindow.SelectionHandler.removeAction "TRANSLATE"
 
   _translate: (aWindow, text) ->
     translationLanguage = @_prefs.getCharPref "translation_language"
