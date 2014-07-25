@@ -44,19 +44,18 @@ TapTranslate =
 
   setupUI: (aWindow) ->
     label = utils.t "Translate"
-    selector = aWindow.ClipboardHelper.getCopyContext(false)
     translate = (aElement) =>
       text = utils.getSelectedText aWindow
       aWindow.SelectionHandler._closeSelection()
       @_translate aWindow, text
 
     if @_isNewContextMenu aWindow
-      aWindow.SelectionHandler.actions.TRANSLATE =
+      aWindow.SelectionHandler.addAction
         label: label
-        id: "translate_action"
+        id: "TRANSLATE"
         icon: @addonData.resourceURI.spec + "assets/translate.png"
         action: translate
-        selector: selector
+        selector: aWindow.SelectionHandler.actions.COPY.selector
         showAsAction: false
         order: 0
     else
