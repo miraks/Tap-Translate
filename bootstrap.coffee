@@ -49,18 +49,14 @@ TapTranslate =
       aWindow.SelectionHandler._closeSelection()
       @_translate aWindow, text
 
-    if @_isNewContextMenu aWindow
-      aWindow.SelectionHandler.addAction
-        label: label
-        id: "TRANSLATE"
-        icon: @addonData.resourceURI.spec + "assets/translate.png"
-        action: translate
-        selector: aWindow.SelectionHandler.actions.COPY.selector
-        showAsAction: false
-        order: 0
-    else
-      menu = aWindow.NativeWindow.contextmenus.add label, selector, translate
-      @_contextMenus.push menu
+    aWindow.SelectionHandler.addAction
+      label: label
+      id: "TRANSLATE"
+      icon: @addonData.resourceURI.spec + "assets/translate.png"
+      action: translate
+      selector: aWindow.SelectionHandler.actions.COPY.selector
+      showAsAction: false
+      order: 0
 
   cleanupUI: (aWindow) ->
     if @_isNewContextMenu aWindow
@@ -91,9 +87,6 @@ TapTranslate =
   _translationErrorNotify: (aWindow) ->
     msg = utils.t "TranslationRequestError"
     aWindow.NativeWindow.toast.show msg
-
-  _isNewContextMenu: (aWindow) ->
-    aWindow.SelectionHandler.actions?
 
 class Translation
   constructor: (@response) ->
@@ -218,7 +211,6 @@ uninstall = (aData, aReason) ->
   TapTranslate.uninstall if aReason == ADDON_UNINSTALL
 
 startup = (aData, aReason) ->
-  settingsObserver.init()
   TapTranslate.init aData
 
   windows = Services.wm.getEnumerator "navigator:browser"
@@ -239,7 +231,6 @@ shutdown = (aData, aReason) ->
     TapTranslate.unload win if win
 
   TapTranslate.uninit()
-  settingsObserver.uninit()
 
 windowListener =
   onOpenWindow: (aWindow) ->
@@ -254,27 +245,3 @@ windowListener =
   onCloseWindow: ->
 
   onWindowTitleChange: ->
-
-#
-# Fennec bug workaround
-# See https://bugzilla.mozilla.org/show_bug.cgi?id=891736
-#
-
-settingsObserver =
-  init: ->
-    Services.obs.addObserver @, "addon-options-displayed", false
-
-  uninit: ->
-    Services.obs.removeObserver @, "addon-options-displayed"
-
-  observe: (subject, topic, data) ->
-    @fixTranslationMenu subject.QueryInterface(Ci.nsIDOMDocument)
-
-  fixTranslationMenu: (doc) ->
-    menu = doc.getElementById "tap-translate-translation-language-selector"
-    return unless menu
-
-    menu.watch "selectedIndex", (prop, oldIndex, newIndex) ->
-      language = menu.getItemAtIndex(newIndex).value
-      TapTranslate.setTranslationLanguage language
-      newIndex
