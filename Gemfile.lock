@@ -1,12 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    coffee-script (2.2.0)
+    coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.3)
-    execjs (2.0.2)
-    rubyzip (1.1.0)
+    coffee-script-source (1.9.1.1)
+    execjs (2.5.2)
+    rubyzip (1.1.7)
 
 PLATFORMS
   ruby
