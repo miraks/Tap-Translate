@@ -1,11 +1,6 @@
-`const Cc = Components.classes;
-const Ci = Components.interfaces;
-const Cu = Components.utils;`
+`const { classes: Cc, interfaces: Ci, utils: Cu } = Components;`
 
 Cu.import "resource://gre/modules/Services.jsm"
-
-DEBUG = false
-
 
 TapTranslate =
   _prefsBranch: "extensions.taptranslate."
@@ -67,7 +62,7 @@ TapTranslate =
     request = requestBuilder.build(
       translationLanguage
       (event) =>
-        translation = JSON.parse event.target.responseText
+        translation = JSON.parse event.target.responseText.replace(/,+/g, ',')
         @_showTranslation aWindow, translation
       =>
         @_translationErrorNotify aWindow
@@ -102,47 +97,57 @@ class Translation
     )
 
   main: ->
-    @response.sentences.map (sentence) -> sentence.trans
+    return unless @response[0]?
+    @_main ||= @response[0]
+      .filter (part) -> part[0]?
+      .map (part) -> part[0]
+      .join ""
 
   secondary: ->
-    @response.dict
+    return unless Array.isArray @response[1]
+    @_secondary ||= @response[1]
+      .filter (part) -> part[0]? and part[1]?
+      .map (part) -> "#{part[0]}: #{part[1].join(", ")}"
+      .join "; "
 
   source: ->
-    utils.t @response.src
+    lang = if Array.isArray(@response[1]) then @response[2] else @response[1]
+    utils.t lang
 
   _message: ->
     msg = ""
     if TapTranslate.showTranslatedLanguage()
       msg += @source()
-      msg += "\n\n"
-    msg += @main().join("")
+      msg += "; "
+    msg += @main()
     if @secondary()
-      msg += "\n"
-      @secondary().forEach (part) ->
-        msg += "\n"
-        pos = utils.capitalize part.pos
-        msg += "#{pos}: #{part.terms.join(", ")}"
+      msg += "; "
+      msg += @secondary()
     msg
 
   _copyToClipboard: ->
     utils.copyToClipboard @main()
 
 requestBuilder =
-  url: "http://translate.google.com/translate_a/t"
-  XMLHttpRequest: Cc["@mozilla.org/xmlextras/xmlhttprequest;1"]
+  url: "https://translate.google.com/translate_a/single"
 
   createXMLHttpRequest: (params) ->
     Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest)
 
   build: (translationLanguage, successHandler, errorHandler) ->
     params =
-      client: "p"
+      client: "t"
+      hl: "auto"
       sl: "auto"
+      dt: ["bd", "t"]
       tl: translationLanguage
 
     query = []
     for param, value of params
-      query.push "#{param}=#{encodeURIComponent(value)}"
+      if Array.isArray value
+        value.forEach (v) -> query.push "#{param}=#{encodeURIComponent(v)}"
+      else
+        query.push "#{param}=#{encodeURIComponent(value)}"
     query = query.join "&"
     url = "#{@url}?#{query}"
 
@@ -153,33 +158,12 @@ requestBuilder =
     request.addEventListener "error", errorHandler, false
     request
 
-
 utils =
   _translations: null
-  _translations_uri: "chrome://taptranslate/locale/taptranslate.properties"
-
-  log: (msg) ->
-    return unless DEBUG
-    msg = "log: #{msg}"
-    Services.console.logStringMessage msg
-
-  inspect: (object, prefix = "") ->
-    return unless DEBUG
-    Object.keys(object).forEach (key) =>
-      try
-        value = object[key]
-        type = typeof value
-        if @isObject value
-          @inspect value, "#{prefix}{#{key}} "
-        else
-          @log "#{prefix}#{key} => (#{type}) #{value}"
-      catch
-
-  isObject: (obj) ->
-    !!obj and obj.constructor == Object
+  _translationsUri: "chrome://taptranslate/locale/taptranslate.properties"
 
   t: (name) ->
-    @_translations ||= Services.strings.createBundle @_translations_uri
+    @_translations ||= Services.strings.createBundle @_translationsUri
 
     try
       @_translations.GetStringFromName name
