@@ -60,6 +60,7 @@ TapTranslate =
     translationLanguage = @_prefs.getCharPref "translation_language"
 
     request = requestBuilder.build(
+      text
       translationLanguage
       (event) =>
         translation = JSON.parse event.target.responseText.replace(/,+/g, ',')
@@ -68,7 +69,7 @@ TapTranslate =
         @_translationErrorNotify aWindow
     )
 
-    request.send("text=#{encodeURIComponent(text)}")
+    request.send()
 
   _showTranslation: (aWindow, translation) ->
     translation = new Translation translation
@@ -134,13 +135,15 @@ requestBuilder =
   createXMLHttpRequest: (params) ->
     Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest)
 
-  build: (translationLanguage, successHandler, errorHandler) ->
+  build: (text, translationLanguage, successHandler, errorHandler) ->
     params =
       client: "t"
       hl: "auto"
       sl: "auto"
       dt: ["bd", "t"]
+      tk: "#{utils.randomNumber(100000, 1000000)}|#{utils.randomNumber(10000, 100000)}"
       tl: translationLanguage
+      q: text
 
     query = []
     for param, value of params
@@ -182,6 +185,9 @@ utils =
   copyToClipboard: (text) ->
     @_clipboardHelper ||= Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper)
     @_clipboardHelper.copyString text
+
+  randomNumber: (min, max) ->
+    Math.floor(Math.random() * (max - min)) + min
 
 install = (aData, aReason) ->
   TapTranslate.install()
