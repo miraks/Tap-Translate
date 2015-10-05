@@ -88,12 +88,16 @@ class Translation
       "Translation"
       [
         {
-          label: utils.t("Copy"),
+          label: utils.t("Copy")
           callback: =>
             @_copyToClipboard()
             aWindow.NativeWindow.toast.show(utils.t("TranslationCopied"), "short")
         },
-        { label: utils.t("Close") }
+        {
+          label: utils.t("Close")
+          callback: ->
+          positive: true
+        }
       ]
     )
 
