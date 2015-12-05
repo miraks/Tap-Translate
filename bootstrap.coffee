@@ -44,14 +44,22 @@ TapTranslate =
       aWindow.SelectionHandler._closeSelection()
       @_translate aWindow, text
 
-    aWindow.SelectionHandler.addAction
+    action =
       label: label
-      id: "TRANSLATE"
+      id: "translate"
       icon: @addonData.resourceURI.spec + "assets/translate.png"
       action: translate
-      selector: aWindow.SelectionHandler.actions.COPY.selector
       showAsAction: false
       order: 0
+
+    # For FF 45+
+    if aWindow.ActionBarHandler?
+      aWindow.ActionBarHandler.actions.TRANSLATE = Object.assign {}, action,
+        selector: aWindow.ActionBarHandler.actions.COPY.selector
+
+    if aWindow.SelectionHandler?
+      aWindow.SelectionHandler.addAction Object.assign {}, action,
+        selector: aWindow.SelectionHandler.actions.COPY.selector
 
   cleanupUI: (aWindow) ->
     aWindow.SelectionHandler.removeAction "TRANSLATE"
