@@ -150,11 +150,13 @@ requestBuilder =
   build: (text, translationLanguage, successHandler, errorHandler) ->
     params =
       client: "t"
+      ie: "UTF-8"
+      oe: "UTF-8"
       sl: "auto"
       tl: translationLanguage
       hl: "en"
       dt: ["bd", "t"]
-      tk: @generateTK(text).tk
+      tk: @generateToken(text)
       q: text
 
     query = []
@@ -173,45 +175,47 @@ requestBuilder =
     request.addEventListener "error", errorHandler, false
     request
 
-  generateTK: (text)->
-    # https://addons.mozilla.org/en-US/firefox/files/browse/376615/file/chrome/content/utils.js#L994
-    # https://translate.google.hu/translate/releases/twsfe_w_20151214_RC03/r/js/desktop_module_main.js
-    `var generate = function(text, SL) {
-      var SL = (SL) ? SL : null;
-      var QL=function(a){return function(){return a}};
-      var cb="&";
-      var k="";
-      var mf="=";
-      var RL=function(a,b){for(var c=0;c<b.length-2;c+=3){var d=b.charAt(c+2),d=d>=t?d.charCodeAt(0)-87:Number(d),d=b.charAt(c+1)==Tb?a>>>d:a<<d;a=b.charAt(c)==Tb?a+d&4294967295:a^d}return a};
-      var Vb="+-a^+6";
-      var t="a";
-      var Tb="+";
-      var Ub="+-3^+b+-f";
-      var dd=".";
-      var TL=function(a){
-        var b;
-        if(null===SL){
-          SL = Math.floor(Math.random() * 1000000);
+  generateToken: (text) ->
+    # https://github.com/bpierre/gtranslate/blob/master/providers/google-translate.js
+    `var generate = function(a) {
+      function tokenhelper(a, b) {
+        for (var c = 0; c < b.length - 2; c += 3) {
+          var d = b.charAt(c + 2),
+            d = d >= "a" ? d.charCodeAt(0) - 87 : Number(d),
+            d = b.charAt(c + 1) == "+" ? a >>> d : a << d;
+          a = b.charAt(c) == "+" ? a + d & 4294967295 : a ^ d
         }
-        b=SL;
-        var d=QL(String.fromCharCode(116)),
-        c=QL(String.fromCharCode(107)),
-        d=[d(),d()];
-        d[1]=c();
-        for(var c=cb+d.join(k)+mf,d=[],e=0,f=0;f<a.length;f++){
-          var g=a.charCodeAt(f);
-          128>g?d[e++]=g:(2048>g?d[e++]=g>>6|192:(55296==(g&64512)&&f+1<a.length&&56320==(a.charCodeAt(f+1)&64512)?(g=65536+((g&1023)<<10)+(a.charCodeAt(++f)&1023),d[e++]=g>>18|240,d[e++]=g>>12&63|128):d[e++]=g>>12|224,d[e++]=g>>6&63|128),d[e++]=g&63|128)
-        }
-        a=b||0;
-        for(e=0;e<d.length;e++) { a+=d[e],a=RL(a,Vb); }
-        a=RL(a,Ub);
-        0>a&&(a=(a&2147483647)+2147483648);
-        a%=1E6;
-
-        return a.toString()+dd+(a^b);
+        return a
       }
-      return { 'tk' : TL(text), 'SL' : SL };
-    }`
+
+      //at first sight seems to be a constant, but couldn't easily find how it was generated. May change.
+      var b = 406394
+      //text to utf8 codepoints
+      for (var d = [], e = 0, f = 0; f < a.length; f++) {
+        var g = a.charCodeAt(f);
+        0x80 > g ?
+          d[e++] = g
+        :
+          (0x800 > g ?
+             d[e++] = g >> 6 | 192
+          :
+             (55296 == (g & 64512) && f + 1 < a.length && 56320 == (a.charCodeAt(f + 1) & 64512) ?
+                 (g = 65536 + ((g & 1023) << 10) + (a.charCodeAt(++f) & 1023),
+                 d[e++] = g >> 18 | 240,
+                 d[e++] = g >> 12 & 0x3f | 0x80)
+             :
+                 d[e++] = g >> 12 | 0xe0,
+                 d[e++] = g >> 6 & 0x3f | 0x80)
+             , d[e++] = g & 0x3f | 0x80)
+      }
+      a = b;
+      for (e = 0; e < d.length; e++) a += d[e], a = tokenhelper(a, "+-a^+6");
+      a = tokenhelper(a, "+-3^+b+-f");
+      a ^= 2641390264;
+      0 > a && (a = (a & 2147483647) + 2147483648);
+      a %= 1E6;
+      return (a.toString() + "." + (a ^ b))
+	  }`
     generate text
 
 utils =
