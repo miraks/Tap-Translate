@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE vbox SYSTEM "chrome://taptranslate/locale/settings.dtd">
+<!DOCTYPE vbox SYSTEM "chrome://taptranslate/locale/options.dtd">
 
 <vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <setting pref="extensions.taptranslate.translation_language" type="menulist" title="&translationLanguage;">
