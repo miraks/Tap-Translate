@@ -107,17 +107,19 @@ class Translation
 
   main: ->
     return unless @response[0]?
+    console.log @response[0]
     @_main ||= @response[0]
       .filter (part) -> part[0]?
       .map (part) -> part[0]
       .join ""
+      .replace /\n/g, "<br>"
 
   secondary: ->
     return unless Array.isArray @response[1]
     @_secondary ||= @response[1]
       .filter (part) -> part[0]? and part[1]?
-      .map (part) -> "#{part[0]}: #{part[1].join(", ")}"
-      .join "; "
+      .map (part) -> "<i>#{part[0]}</i>: #{part[1].join(", ")}"
+      .join "<br>"
 
   source: ->
     lang = if Array.isArray(@response[1]) then @response[2] else @response[1]
@@ -125,13 +127,9 @@ class Translation
 
   _message: ->
     msg = ""
-    if TapTranslate.showTranslatedLanguage()
-      msg += @source()
-      msg += "; "
     msg += @main()
-    if @secondary()
-      msg += "; "
-      msg += @secondary()
+    msg = "<b>#{msg}</b><br><br>#{@secondary()}" if @secondary()
+    msg += "<br><br><i>#{utils.t("Language")}: #{@source()}</i>" if TapTranslate.showTranslatedLanguage()
     msg
 
   _copyToClipboard: ->
