@@ -1,6 +1,7 @@
 `const { classes: Cc, interfaces: Ci, utils: Cu } = Components;`
 
 Cu.import "resource://gre/modules/Services.jsm"
+Cu.import "resource://gre/modules/Snackbars.jsm"
 
 TapTranslate =
   _prefsBranch: "extensions.taptranslate."
@@ -80,7 +81,7 @@ TapTranslate =
 
   _translationErrorNotify: (aWindow) ->
     msg = utils.t "TranslationRequestError"
-    aWindow.NativeWindow.toast.show msg
+    Snackbars.show msg, Snackbars.LENGTH_LONG
 
 class Translation
   constructor: (@response) ->
@@ -94,7 +95,7 @@ class Translation
           label: utils.t("Copy")
           callback: =>
             @_copyToClipboard()
-            aWindow.NativeWindow.toast.show(utils.t("TranslationCopied"), "short")
+            Snackbars.show(utils.t("TranslationCopied"), Snackbars.LENGTH_SHORT)
         },
         {
           label: utils.t("Close")
