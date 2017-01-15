@@ -24,7 +24,7 @@ TapTranslate =
   _setDefaultPrefs: ->
     prefs = Services.prefs.getDefaultBranch @_prefsBranch
     prefs.setCharPref "translation_language", "en"
-    prefs.setBoolPref "show_translated_language", false
+    prefs.setBoolPref "show_translated_language", true
 
   install: ->
 
