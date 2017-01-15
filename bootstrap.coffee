@@ -41,7 +41,7 @@ TapTranslate =
     label = utils.t "Translate"
     translate = (aElement) =>
       text = utils.getSelectedText aWindow
-      aWindow.SelectionHandler._closeSelection()
+      aWindow.ActionBarHandler._uninit()
       @_translate aWindow, text
 
     action =
@@ -51,18 +51,13 @@ TapTranslate =
       action: translate
       showAsAction: false
       order: 0
+      floatingOrder: 100
 
-    # For FF 45+
-    if aWindow.ActionBarHandler?
-      aWindow.ActionBarHandler.actions.TRANSLATE = Object.assign {}, action,
-        selector: aWindow.ActionBarHandler.actions.COPY.selector
-
-    if aWindow.SelectionHandler?
-      aWindow.SelectionHandler.addAction Object.assign {}, action,
-        selector: aWindow.SelectionHandler.actions.COPY.selector
+    aWindow.ActionBarHandler.actions.TRANSLATE = Object.assign {}, action,
+      selector: aWindow.ActionBarHandler.actions.COPY.selector
 
   cleanupUI: (aWindow) ->
-    aWindow.SelectionHandler.removeAction "TRANSLATE"
+    delete aWindow.ActionBarHandler.actions.TRANSLATE
 
   _translate: (aWindow, text) ->
     translationLanguage = @_prefs.getCharPref "translation_language"
