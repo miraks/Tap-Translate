@@ -13,5 +13,5 @@
   - chrome
 :compile:
   - bootstrap.coffee
-:push_to_device: true
+:push_to_device: false
 :app_id: org.mozilla.firefox
