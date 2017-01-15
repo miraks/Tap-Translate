@@ -4,8 +4,8 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1.1)
-    execjs (2.5.2)
+    coffee-script-source (1.12.2)
+    execjs (2.7.0)
     rubyzip (1.1.7)
 
 PLATFORMS
@@ -14,3 +14,6 @@ PLATFORMS
 DEPENDENCIES
   coffee-script
   rubyzip
+
+BUNDLED WITH
+   1.13.7
