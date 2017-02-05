@@ -1,7 +1,6 @@
 ---
 :name: taptranslate
 :files:
-  - bootstrap.coffee
   - bootstrap.js
   - chrome.manifest
   - icon.png
