@@ -1,4 +1,0 @@
-content  taptranslate       chrome/content/
-locale   taptranslate en-US chrome/locale/en-US/
-locale   taptranslate ru-RU chrome/locale/ru-RU/
-locale   taptranslate fr    chrome/locale/fr/

@@ -1,2 +1,3 @@
-taptranslate.xpi
-bootstrap.js
+node_modules
+dist
+*.xpi

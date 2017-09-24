@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+  "name": "Tap Translate",
+  "version": "1.0.0",
+  "default_locale": "en",
+  "description": "__MSG_description__",
+  "developer": {
+    "name": "Alexey Volodkin",
+    "url": "https://github.com/miraks/Tap-Translate"
+  },
+  "applications": {
+    "gecko": {
+      "id": "{8a802b5a-eeab-11e2-a41d-b0096288709b}",
+      "strict_min_version": "56.0"
+    }
+  },
+  "icons": {
+    "48": "icons/icon48.png",
+    "96": "icons/icon96.png"
+  },
+  "permissions": ["storage", "https://translate.google.com/translate_a/single"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "css": ["content.css"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "options_ui": {
+    "page": "options.html"
+  },
+  "web_accessible_resources": ["icons/icon.png"]
+}

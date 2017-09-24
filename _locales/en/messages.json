@@ -1,0 +1,356 @@
+{
+  "description": {
+    "message": "Add a translate button on the page"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "copyToClipboard": {
+    "message": "Copy"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "tryAgain": {
+    "message": "Try again"
+  },
+  "requestError": {
+    "message": "Failed to load translation"
+  },
+  "language": {
+    "message": "Language"
+  },
+  "translationLanguage": {
+    "message": "Translation language"
+  },
+  "showTranslatedLanguage": {
+    "message": "Show translated language name"
+  },
+  "noun": {
+    "message": "Noun"
+  },
+  "adjective": {
+    "message": "Adjective"
+  },
+  "verb": {
+    "message": "Verb"
+  },
+  "adverb": {
+    "message": "Adverb"
+  },
+  "interjection": {
+    "message": "Interjection"
+  },
+  "af": {
+    "message": "Afrikaans"
+  },
+  "sq": {
+    "message": "Albanian"
+  },
+  "am": {
+    "message": "Amharic"
+  },
+  "ar": {
+    "message": "Arabic"
+  },
+  "hy": {
+    "message": "Armenian"
+  },
+  "az": {
+    "message": "Azerbaijani"
+  },
+  "eu": {
+    "message": "Basque"
+  },
+  "be": {
+    "message": "Belarusian"
+  },
+  "bn": {
+    "message": "Bengali"
+  },
+  "bs": {
+    "message": "Bosnian"
+  },
+  "bg": {
+    "message": "Bulgarian"
+  },
+  "ca": {
+    "message": "Catalan"
+  },
+  "ceb": {
+    "message": "Cebuano"
+  },
+  "ny": {
+    "message": "Chichewa"
+  },
+  "zh-CN": {
+    "message": "Chinese (Simplified)"
+  },
+  "zh-TW": {
+    "message": "Chinese (Traditional)"
+  },
+  "co": {
+    "message": "Corsican"
+  },
+  "hr": {
+    "message": "Croatian"
+  },
+  "cs": {
+    "message": "Czech"
+  },
+  "da": {
+    "message": "Danish"
+  },
+  "nl": {
+    "message": "Dutch"
+  },
+  "en": {
+    "message": "English"
+  },
+  "eo": {
+    "message": "Esperanto"
+  },
+  "et": {
+    "message": "Estonian"
+  },
+  "tl": {
+    "message": "Filipino"
+  },
+  "fi": {
+    "message": "Finnish"
+  },
+  "fr": {
+    "message": "French"
+  },
+  "fy": {
+    "message": "Frisian"
+  },
+  "gl": {
+    "message": "Galician"
+  },
+  "ka": {
+    "message": "Georgian"
+  },
+  "de": {
+    "message": "German"
+  },
+  "el": {
+    "message": "Greek"
+  },
+  "gu": {
+    "message": "Gujarati"
+  },
+  "ht": {
+    "message": "Haitian Creole"
+  },
+  "ha": {
+    "message": "Hausa"
+  },
+  "haw": {
+    "message": "Hawaiian"
+  },
+  "iw": {
+    "message": "Hebrew"
+  },
+  "hi": {
+    "message": "Hindi"
+  },
+  "hmn": {
+    "message": "Hmong"
+  },
+  "hu": {
+    "message": "Hungarian"
+  },
+  "is": {
+    "message": "Icelandic"
+  },
+  "ig": {
+    "message": "Igbo"
+  },
+  "id": {
+    "message": "Indonesian"
+  },
+  "ga": {
+    "message": "Irish"
+  },
+  "it": {
+    "message": "Italian"
+  },
+  "ja": {
+    "message": "Japanese"
+  },
+  "jw": {
+    "message": "Javanese"
+  },
+  "kn": {
+    "message": "Kannada"
+  },
+  "kk": {
+    "message": "Kazakh"
+  },
+  "km": {
+    "message": "Khmer"
+  },
+  "ko": {
+    "message": "Korean"
+  },
+  "ku": {
+    "message": "Kurdish (Kurmanji)"
+  },
+  "ky": {
+    "message": "Kyrgyz"
+  },
+  "lo": {
+    "message": "Lao"
+  },
+  "la": {
+    "message": "Latin"
+  },
+  "lv": {
+    "message": "Latvian"
+  },
+  "lt": {
+    "message": "Lithuanian"
+  },
+  "lb": {
+    "message": "Luxembourgish"
+  },
+  "mk": {
+    "message": "Macedonian"
+  },
+  "mg": {
+    "message": "Malagasy"
+  },
+  "ms": {
+    "message": "Malay"
+  },
+  "ml": {
+    "message": "Malayalam"
+  },
+  "mt": {
+    "message": "Maltese"
+  },
+  "mi": {
+    "message": "Maori"
+  },
+  "mr": {
+    "message": "Marathi"
+  },
+  "mn": {
+    "message": "Mongolian"
+  },
+  "my": {
+    "message": "Myanmar (Burmese)"
+  },
+  "ne": {
+    "message": "Nepali"
+  },
+  "no": {
+    "message": "Norwegian"
+  },
+  "ps": {
+    "message": "Pashto"
+  },
+  "fa": {
+    "message": "Persian"
+  },
+  "pl": {
+    "message": "Polish"
+  },
+  "pt": {
+    "message": "Portuguese"
+  },
+  "pa": {
+    "message": "Punjabi"
+  },
+  "ro": {
+    "message": "Romanian"
+  },
+  "ru": {
+    "message": "Russian"
+  },
+  "sm": {
+    "message": "Samoan"
+  },
+  "gd": {
+    "message": "Scots Gaelic"
+  },
+  "sr": {
+    "message": "Serbian"
+  },
+  "st": {
+    "message": "Sesotho"
+  },
+  "sn": {
+    "message": "Shona"
+  },
+  "sd": {
+    "message": "Sindhi"
+  },
+  "si": {
+    "message": "Sinhala"
+  },
+  "sk": {
+    "message": "Slovak"
+  },
+  "sl": {
+    "message": "Slovenian"
+  },
+  "so": {
+    "message": "Somali"
+  },
+  "es": {
+    "message": "Spanish"
+  },
+  "su": {
+    "message": "Sundanese"
+  },
+  "sw": {
+    "message": "Swahili"
+  },
+  "sv": {
+    "message": "Swedish"
+  },
+  "tg": {
+    "message": "Tajik"
+  },
+  "ta": {
+    "message": "Tamil"
+  },
+  "te": {
+    "message": "Telugu"
+  },
+  "th": {
+    "message": "Thai"
+  },
+  "tr": {
+    "message": "Turkish"
+  },
+  "uk": {
+    "message": "Ukrainian"
+  },
+  "ur": {
+    "message": "Urdu"
+  },
+  "uz": {
+    "message": "Uzbek"
+  },
+  "vi": {
+    "message": "Vietnamese"
+  },
+  "cy": {
+    "message": "Welsh"
+  },
+  "xh": {
+    "message": "Xhosa"
+  },
+  "yi": {
+    "message": "Yiddish"
+  },
+  "yo": {
+    "message": "Yoruba"
+  },
+  "zu": {
+    "message": "Zulu"
+  }
+}
