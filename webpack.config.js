@@ -2,13 +2,12 @@
 
 const path = require('path')
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ZipPlugin = require('./plugins/zip')
 
-const extractSass = new ExtractTextPlugin({ filename: '[name].css' })
-
 module.exports = {
+  mode: process.env.NODE_ENV || 'development',
   entry: {
     content: './src/content/index.jsx',
     options: './src/options/index.jsx'
@@ -25,7 +24,7 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           plugins: [
-            ['transform-object-rest-spread', { useBuiltIns: true }],
+            ['syntax-object-rest-spread'],
             ['transform-class-properties'],
             ['transform-react-jsx', { pragma: 'h' }]
           ]
@@ -33,10 +32,11 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        use: extractSass.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
       }
     ]
   },
@@ -51,7 +51,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
-    extractSass,
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    }),
     new CopyPlugin([
       { from: 'manifest.json' },
       { from: 'icons', to: 'icons' },

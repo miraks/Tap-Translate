@@ -9,7 +9,7 @@ module.exports = class WebpackZipPlugin {
   }
 
   apply(compiler) {
-    compiler.plugin('after-emit', (compilation, cb) => {
+    compiler.hooks.afterEmit.tapAsync('ZipPlugin', (compilation, cb) => {
       const output = fs.createWriteStream(this.options.path)
       const archive = archiver('zip')
 

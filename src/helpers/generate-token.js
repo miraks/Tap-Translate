@@ -1,4 +1,4 @@
-/* eslint-disable no-bitwise, no-plusplus, no-param-reassign, no-unused-expressions, no-sequences */
+/* eslint-disable no-bitwise, no-plusplus, no-param-reassign, no-unused-expressions, no-sequences, no-shadow, indent */
 
 // https://github.com/bpierre/gtranslate/blob/master/providers/google-translate.js
 
