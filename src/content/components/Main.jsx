@@ -2,10 +2,13 @@ import { h, Component } from 'preact'
 import t from '@/helpers/t'
 import translate from '@/helpers/translate'
 import getSettings from '@/helpers/get-settings'
+import pick from '@/helpers/pick'
+import kebabCase from '@/helpers/kebab-case'
 import copyToClipboard from '@/helpers/copy-to-clipboard'
 import Translation from '@/content/components/Translation'
 
 const animationDuration = 200
+const settingKeys = ['showTranslatedLanguage', 'buttonPosition']
 
 export default class Main extends Component {
   constructor() {
@@ -14,11 +17,13 @@ export default class Main extends Component {
     this.selectedText = null
     this.currentText = null
     this.translation = null
+    this.position = { top: 0, left: 0, width: 0, height: 0 }
     this.state = {
       showButton: false,
       requestStatus: 'pending',
       translationClosing: false,
-      showTranslatedLanguage: null
+      showTranslatedLanguage: null,
+      buttonPosition: null
     }
   }
 
@@ -27,18 +32,22 @@ export default class Main extends Component {
     selectionListener(this.onSelectionChange)
     storageListener(this.onStorageChange)
 
-    const { showTranslatedLanguage } = await getSettings()
-    this.setState((state) => ({ ...state, showTranslatedLanguage }))
+    const settings = await getSettings()
+    this.setState((state) => ({ ...state, ...pick(settings, settingKeys) }))
   }
 
   onSelectionChange = (selection) => {
     this.selectedText = selection.toString()
+    this.position = selection.getRangeAt(0).getBoundingClientRect()
     this.setState((state) => ({ ...state, showButton: !!this.selectedText }))
   }
 
-  onStorageChange = ({ showTranslatedLanguage }) => {
-    if (showTranslatedLanguage === undefined) return
-    this.setState((state) => ({ ...state, showTranslatedLanguage: showTranslatedLanguage.newValue }))
+  onStorageChange = (changes) => {
+    const newSettings = Object.entries(pick(changes, settingKeys)).reduce((result, [key, { newValue }]) => {
+      result[key] = newValue
+      return result
+    }, {})
+    this.setState((state) => ({ ...state, ...newSettings }))
   }
 
   onTranslate = () => {
@@ -72,6 +81,15 @@ export default class Main extends Component {
       if (this.state.requestStatus === 'loading' && !this.state.translationClosing) {
         this.setState((state) => ({ ...state, requestStatus: newStatus }))
       }
+    }
+  }
+
+  buttonStyle() {
+    const { buttonPosition } = this.state
+    if (buttonPosition === 'corner') return {}
+    return {
+      top: this.position.top + this.position.height + window.scrollY,
+      left: this.position.left + this.position.width + window.scrollX
     }
   }
 
@@ -109,14 +127,9 @@ export default class Main extends Component {
     }
   }
 
-  render(_, { showButton, requestStatus, translationClosing, showTranslatedLanguage }) {
+  render(_, { showButton, requestStatus, translationClosing, showTranslatedLanguage, buttonPosition }) {
     return (
       <div id="tap-translate">
-        {showButton && (
-          <div className="translation-button" onClick={this.onTranslate}>
-            <img className="translation-button_image" src={browser.runtime.getURL('icons/icon.png')}/>
-          </div>
-        )}
         {requestStatus !== 'pending' && (
           <Translation
             status={requestStatus}
@@ -127,6 +140,14 @@ export default class Main extends Component {
             closing={translationClosing}
             onClose={this.closeTranslation}
           />
+        )}
+        {showButton && (
+          <div
+            className={`translation-button m-${kebabCase(buttonPosition)}`}
+            style={this.buttonStyle()}
+            onClick={this.onTranslate}>
+            <img className="translation-button_image" src={browser.runtime.getURL('icons/icon.png')}/>
+          </div>
         )}
       </div>
     )

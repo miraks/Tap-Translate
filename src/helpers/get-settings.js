@@ -6,7 +6,8 @@ const defaultLanguage = languages.find((language) => language === uiLanguage || 
 
 const defaultSettings = {
   translationLanguage: defaultLanguage,
-  showTranslatedLanguage: true
+  showTranslatedLanguage: true,
+  buttonPosition: 'corner'
 }
 
 export default () => browser.storage.local.get(defaultSettings)

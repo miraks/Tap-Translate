@@ -1,6 +1,7 @@
 import { h, Component } from 'preact'
 import t from '@/helpers/t'
 import languages from '@/helpers/languages'
+import buttonPositions from '@/helpers/button-positions'
 import getSettings from '@/helpers/get-settings'
 
 export default class Main extends Component {
@@ -10,6 +11,11 @@ export default class Main extends Component {
     this.languages = languages.map((language) => ({
       id: language,
       name: t(language)
+    }))
+
+    this.buttonPositions = buttonPositions.map((position) => ({
+      id: position,
+      name: t(`buttonPosition.${position}`)
     }))
   }
 
@@ -26,12 +32,16 @@ export default class Main extends Component {
     this.setSetting('showTranslatedLanguage', event.target.checked)
   }
 
+  onButtonPositionChange = (event) => {
+    this.setSetting('buttonPosition', event.target.value)
+  }
+
   setSetting(key, value) {
     this.setState((state) => ({ ...state, [key]: value }))
     browser.storage.local.set({ [key]: value })
   }
 
-  render(_, { translationLanguage, showTranslatedLanguage }) {
+  render(_, { translationLanguage, showTranslatedLanguage, buttonPosition }) {
     return (
       <div id="options">
         <label>
@@ -47,6 +57,16 @@ export default class Main extends Component {
         <label>
           {t('showTranslatedLanguage')}
           <input type="checkbox" checked={showTranslatedLanguage} onChange={this.onShowTranslatedLanguageChange}/>
+        </label>
+        <label>
+          {t('buttonPosition')}
+          <select value={buttonPosition} onChange={this.onButtonPositionChange}>
+            {this.buttonPositions.map(({ id, name }) => (
+              <option key={id} value={id} selected={id === buttonPosition}>
+                {name}
+              </option>
+            ))}
+          </select>
         </label>
       </div>
     )

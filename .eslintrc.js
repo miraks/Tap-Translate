@@ -46,6 +46,13 @@ module.exports = {
     'object-curly-newline': 'off',
     'object-shorthand': ['error', 'always'],
     'semi': ['error', 'never'],
+    'react/jsx-closing-bracket-location': [
+      'error',
+      {
+        selfClosing: 'tag-aligned',
+        nonEmpty: 'after-props'
+      }
+    ],
     'react/jsx-tag-spacing': ['error', { beforeSelfClosing: 'never' }],
     'react/no-unused-state': 'off',
     'react/prefer-stateless-function': 'off',

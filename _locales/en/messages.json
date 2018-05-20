@@ -26,6 +26,12 @@
   "showTranslatedLanguage": {
     "message": "Show translated language name"
   },
+  "buttonPosition.corner": {
+    "message": "Top-right corner"
+  },
+  "buttonPosition.nextTo": {
+    "message": "Next to selected text"
+  },
   "noun": {
     "message": "Noun"
   },
