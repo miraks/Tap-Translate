@@ -36,13 +36,12 @@ const init = () => {
   document.body.appendChild(container)
   render(<Main selectionListener={selectionListener} storageListener={storageListener}/>, container)
 
-  const observer = new MutationObserver((mutations) => {
-    const removed = mutations.some(({ removedNodes }) => Array.from(removedNodes).includes(container))
-    if (!removed) return
+  const observer = new MutationObserver(() => {
+    if (!document.body || document.body.contains(container)) return
     observer.disconnect()
     setTimeout(init, reinitDelay)
   })
-  observer.observe(container.parentNode, { childList: true })
+  observer.observe(document, { childList: true })
 }
 
 init()
