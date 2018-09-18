@@ -1,0 +1,362 @@
+{
+  "description": {
+    "message": "添加一个翻译按钮"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "copyToClipboard": {
+    "message": "复制"
+  },
+  "close": {
+    "message": "关闭"
+  },
+  "tryAgain": {
+    "message": "重试"
+  },
+  "requestError": {
+    "message": "加载翻译失败"
+  },
+  "language": {
+    "message": "语言"
+  },
+  "translationLanguage": {
+    "message": "译文语言"
+  },
+  "showTranslatedLanguage": {
+    "message": "显示中文语言名"
+  },
+  "buttonPosition.corner": {
+    "message": "右上角"
+  },
+  "buttonPosition.nextTo": {
+    "message": "选中文本旁边"
+  },
+  "noun": {
+    "message": "名词"
+  },
+  "adjective": {
+    "message": "形容词"
+  },
+  "verb": {
+    "message": "动词"
+  },
+  "adverb": {
+    "message": "副词"
+  },
+  "interjection": {
+    "message": "叹词"
+  },
+  "af": {
+    "message": "南非荷兰语"
+  },
+  "sq": {
+    "message": "阿尔巴尼亚语"
+  },
+  "am": {
+    "message": "阿姆哈拉语"
+  },
+  "ar": {
+    "message": "阿拉伯语"
+  },
+  "hy": {
+    "message": "亚美尼亚语"
+  },
+  "az": {
+    "message": "阿塞拜疆语"
+  },
+  "eu": {
+    "message": "巴斯克语"
+  },
+  "be": {
+    "message": "白俄罗斯语"
+  },
+  "bn": {
+    "message": "孟加拉语"
+  },
+  "bs": {
+    "message": "波斯尼亚语"
+  },
+  "bg": {
+    "message": "保加利亚语"
+  },
+  "ca": {
+    "message": "加泰罗尼亚语"
+  },
+  "ceb": {
+    "message": "宿务语"
+  },
+  "ny": {
+    "message": "齐佩瓦语"
+  },
+  "zh-CN": {
+    "message": "简体中文"
+  },
+  "zh-TW": {
+    "message": "繁体中文"
+  },
+  "co": {
+    "message": "科西嘉语"
+  },
+  "hr": {
+    "message": "克罗地亚语"
+  },
+  "cs": {
+    "message": "捷克语"
+  },
+  "da": {
+    "message": "丹麦语"
+  },
+  "nl": {
+    "message": "荷兰语"
+  },
+  "en": {
+    "message": "英语"
+  },
+  "eo": {
+    "message": "世界语"
+  },
+  "et": {
+    "message": "爱沙尼亚语"
+  },
+  "tl": {
+    "message": "菲律宾语"
+  },
+  "fi": {
+    "message": "芬兰语"
+  },
+  "fr": {
+    "message": "法语"
+  },
+  "fy": {
+    "message": "弗里斯兰语"
+  },
+  "gl": {
+    "message": "加利西亚语"
+  },
+  "ka": {
+    "message": "格鲁吉亚语"
+  },
+  "de": {
+    "message": "德语"
+  },
+  "el": {
+    "message": "希腊语"
+  },
+  "gu": {
+    "message": "古吉拉特语"
+  },
+  "ht": {
+    "message": "海地克里奥尔语"
+  },
+  "ha": {
+    "message": "豪萨语"
+  },
+  "haw": {
+    "message": "夏威夷语"
+  },
+  "iw": {
+    "message": "希伯来语"
+  },
+  "hi": {
+    "message": "印地语"
+  },
+  "hmn": {
+    "message": "苗语"
+  },
+  "hu": {
+    "message": "匈牙利语"
+  },
+  "is": {
+    "message": "冰岛语"
+  },
+  "ig": {
+    "message": "伊博语"
+  },
+  "id": {
+    "message": "印尼语"
+  },
+  "ga": {
+    "message": "爱尔兰语"
+  },
+  "it": {
+    "message": "意大利语"
+  },
+  "ja": {
+    "message": "日语"
+  },
+  "jw": {
+    "message": "爪哇语"
+  },
+  "kn": {
+    "message": "卡纳达语"
+  },
+  "kk": {
+    "message": "哈萨克语"
+  },
+  "km": {
+    "message": "高棉语"
+  },
+  "ko": {
+    "message": "朝鲜语/韩语"
+  },
+  "ku": {
+    "message": "库尔德语 (Kurmanji)"
+  },
+  "ky": {
+    "message": "吉尔吉斯语"
+  },
+  "lo": {
+    "message": "老挝语"
+  },
+  "la": {
+    "message": "拉丁语"
+  },
+  "lv": {
+    "message": "拉脱维亚语"
+  },
+  "lt": {
+    "message": "立陶宛语"
+  },
+  "lb": {
+    "message": "卢森堡语"
+  },
+  "mk": {
+    "message": "马其顿语"
+  },
+  "mg": {
+    "message": "马尔加什语"
+  },
+  "ms": {
+    "message": "马来语"
+  },
+  "ml": {
+    "message": "马拉雅拉姆语"
+  },
+  "mt": {
+    "message": "马耳他语"
+  },
+  "mi": {
+    "message": "毛利语"
+  },
+  "mr": {
+    "message": "马拉地语"
+  },
+  "mn": {
+    "message": "蒙古语"
+  },
+  "my": {
+    "message": "缅甸语 (Burmese)"
+  },
+  "ne": {
+    "message": "尼泊尔语"
+  },
+  "no": {
+    "message": "挪威语"
+  },
+  "ps": {
+    "message": "普什图语"
+  },
+  "fa": {
+    "message": "波斯语"
+  },
+  "pl": {
+    "message": "波兰语"
+  },
+  "pt": {
+    "message": "葡萄牙语"
+  },
+  "pa": {
+    "message": "旁遮普语"
+  },
+  "ro": {
+    "message": "罗马尼亚语"
+  },
+  "ru": {
+    "message": "俄语"
+  },
+  "sm": {
+    "message": "萨摩亚语"
+  },
+  "gd": {
+    "message": "苏格兰盖尔语"
+  },
+  "sr": {
+    "message": "塞尔维亚语"
+  },
+  "st": {
+    "message": "塞索托语"
+  },
+  "sn": {
+    "message": "绍纳语"
+  },
+  "sd": {
+    "message": "信德语"
+  },
+  "si": {
+    "message": "僧伽罗语"
+  },
+  "sk": {
+    "message": "斯洛伐克语"
+  },
+  "sl": {
+    "message": "斯洛文尼亚语"
+  },
+  "so": {
+    "message": "索马里语"
+  },
+  "es": {
+    "message": "西班牙语"
+  },
+  "su": {
+    "message": "巽他语"
+  },
+  "sw": {
+    "message": "斯瓦希里语"
+  },
+  "sv": {
+    "message": "瑞典语"
+  },
+  "tg": {
+    "message": "塔吉克语"
+  },
+  "ta": {
+    "message": "泰米尔语"
+  },
+  "te": {
+    "message": "泰卢固语"
+  },
+  "th": {
+    "message": "泰语"
+  },
+  "tr": {
+    "message": "土耳其语"
+  },
+  "uk": {
+    "message": "乌克兰语"
+  },
+  "ur": {
+    "message": "乌尔都语"
+  },
+  "uz": {
+    "message": "乌兹别克语"
+  },
+  "vi": {
+    "message": "越南语"
+  },
+  "cy": {
+    "message": "威尔士语"
+  },
+  "xh": {
+    "message": "科萨语"
+  },
+  "yi": {
+    "message": "意第绪语"
+  },
+  "yo": {
+    "message": "约鲁巴语"
+  },
+  "zu": {
+    "message": "祖鲁语"
+  }
+}
