@@ -26,8 +26,8 @@ export default class Translation extends Component {
                 translation.language && (
                   <div className="translation_language">
                     {t('language')}: {t(translation.language)}
-                  </div>
-                )}
+                  </div>)
+              }
             </div>
           )}
           {status === 'failed' && (

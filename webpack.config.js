@@ -21,14 +21,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          plugins: [
-            ['syntax-object-rest-spread'],
-            ['transform-class-properties'],
-            ['transform-react-jsx', { pragma: 'h' }]
-          ]
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.sass$/,

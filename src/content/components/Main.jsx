@@ -104,7 +104,8 @@ export default class Main extends Component {
           onClick: this.closeTranslation
         }
       ]
-    } else if (requestStatus === 'success') {
+    }
+    if (requestStatus === 'success') {
       return [
         {
           text: t('copyToClipboard'),
@@ -116,7 +117,8 @@ export default class Main extends Component {
           onClick: this.closeTranslation
         }
       ]
-    } else if (requestStatus === 'failed') {
+    }
+    if (requestStatus === 'failed') {
       return [
         {
           text: t('tryAgain'),

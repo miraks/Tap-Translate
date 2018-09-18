@@ -19,6 +19,7 @@ module.exports = {
     'arrow-parens': ['error', 'always'],
     'comma-dangle': ['error', 'never'],
     'consistent-return': 'off',
+    'implicit-arrow-linebreak': 'off',
     'max-len': ['error', 120],
     'no-mixed-operators': [
       'error',
@@ -45,7 +46,9 @@ module.exports = {
     ],
     'object-curly-newline': 'off',
     'object-shorthand': ['error', 'always'],
+    'operator-linebreak': ['error', 'after'],
     'semi': ['error', 'never'],
+    'react/destructuring-assignment': 'off',
     'react/jsx-closing-bracket-location': [
       'error',
       {
@@ -53,6 +56,7 @@ module.exports = {
         nonEmpty: 'after-props'
       }
     ],
+    'react/jsx-one-expression-per-line': 'off',
     'react/jsx-tag-spacing': ['error', { beforeSelfClosing: 'never' }],
     'react/no-unused-state': 'off',
     'react/prefer-stateless-function': 'off',
