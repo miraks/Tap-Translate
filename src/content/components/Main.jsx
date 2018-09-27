@@ -131,7 +131,7 @@ export default class Main extends Component {
 
   render(_, { showButton, requestStatus, translationClosing, showTranslatedLanguage, buttonPosition }) {
     return (
-      <div id="tap-translate">
+      <div className="container">
         {requestStatus !== 'pending' && (
           <Translation
             status={requestStatus}

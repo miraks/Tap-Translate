@@ -3,7 +3,7 @@ import '@/content/styles/index.sass'
 import debounce from '@/helpers/debounce'
 import Main from '@/content/components/Main'
 
-const reinitDelay = 500
+const reinitDelay = 200
 const selectionChangeDelay = 200
 
 const buildListener = (fn) => {
@@ -32,16 +32,18 @@ const storageListener = buildListener((trigger) => {
 })
 
 const init = () => {
-  const container = document.createElement('div')
-  document.body.appendChild(container)
-  render(<Main selectionListener={selectionListener} storageListener={storageListener}/>, container)
+  const root = document.createElement('div')
+  root.id = 'tap-translate'
+  document.body.appendChild(root)
+  render(<Main selectionListener={selectionListener} storageListener={storageListener}/>, root)
 
   const observer = new MutationObserver(() => {
-    if (!document.body || document.body.contains(container)) return
+    if (document.body.lastElementChild === root) return
+    root.remove()
     observer.disconnect()
     setTimeout(init, reinitDelay)
   })
-  observer.observe(document, { childList: true })
+  observer.observe(document.body, { childList: true })
 }
 
 init()

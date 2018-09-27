@@ -58,14 +58,18 @@ $dark-blue: #066896
     transform: rotateZ(360deg)
 
 #tap-translate
-  font-size: 16px
-  font-family: sans-serif
-  line-height: 1.2
-  color: $black
-  z-index: 1000000000
+  all: initial
 
   *, *::before, *::after
     box-sizing: border-box
+
+  .container
+    position: fixed
+    font-size: 16px
+    font-family: sans-serif
+    line-height: 1.2
+    color: $black
+    z-index: 1000000000
 
   .translation-button
     animation-duration: 0.1s
