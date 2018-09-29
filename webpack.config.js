@@ -25,10 +25,22 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
+        oneOf: [
+          {
+            resourceQuery: /string/,
+            use: [
+              'to-string-loader',
+              'css-loader',
+              'sass-loader'
+            ]
+          },
+          {
+            use: [
+              MiniCssExtractPlugin.loader,
+              'css-loader',
+              'sass-loader'
+            ]
+          }
         ]
       }
     ]

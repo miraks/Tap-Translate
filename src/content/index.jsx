@@ -1,6 +1,6 @@
 import { render, h } from 'preact'
-import '@/content/styles/index.sass'
-import shadowStyles from '!to-string-loader!css-loader!sass-loader!@/content/styles/shadow.sass'
+import shadowStyles from '@/content/styles/shadow.sass?string'
+import noShadowStyles from '@/content/styles/no-shadow.sass?string'
 import debounce from '@/helpers/debounce'
 import Main from '@/content/components/Main'
 
@@ -33,19 +33,22 @@ const storageListener = buildListener((trigger) => {
 })
 
 const init = () => {
+  const main = <Main selectionListener={selectionListener} storageListener={storageListener}/>
+  const style = document.createElement('style')
   const root = document.createElement('div')
   root.id = 'tap-translate'
   document.body.appendChild(root)
 
-  let shadow = null
   if (root.attachShadow) {
-    shadow = root.attachShadow({ mode: 'open' })
-    const style = document.createElement('style')
+    const shadow = root.attachShadow({ mode: 'open' })
     style.textContent = shadowStyles
     shadow.appendChild(style)
+    render(main, shadow)
+  } else {
+    style.textContent = noShadowStyles
+    root.appendChild(style)
+    render(main, root)
   }
-
-  render(<Main selectionListener={selectionListener} storageListener={storageListener}/>, shadow || root)
 
   const observer = new MutationObserver(() => {
     if (document.body.lastElementChild === root) return

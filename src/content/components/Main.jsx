@@ -8,6 +8,7 @@ import copyToClipboard from '@/helpers/copy-to-clipboard'
 import Translation from '@/content/components/Translation'
 
 const animationDuration = 200
+const buttonHeight = 40
 const settingKeys = ['showTranslatedLanguage', 'buttonPosition']
 
 export default class Main extends Component {
@@ -88,7 +89,7 @@ export default class Main extends Component {
     const { buttonPosition } = this.state
     if (buttonPosition === 'corner') return {}
     return {
-      top: this.position.top + this.position.height + window.scrollY,
+      top: this.position.top + window.scrollY - buttonHeight,
       left: this.position.left + this.position.width + window.scrollX
     }
   }

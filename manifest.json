@@ -23,7 +23,6 @@
     {
       "matches": ["<all_urls>"],
       "all_frames": true,
-      "css": ["content.css"],
       "js": ["content.js"],
       "run_at": "document_end"
     }
